@@ -35,10 +35,13 @@ class AlienInvasion:
         """开始游戏的主循环"""
         while True:
             self._check_events()
-            self.ship.update()
-            self.bullets.update()
-            self._update_bullets()
-            self._update_aliens()
+
+            if self.stats.game_active:
+                self.ship.update()
+                self.bullets.update()
+                self._update_bullets()
+                self._update_aliens()
+                
             self._update_screen()
 
     def _check_events(self):
@@ -107,6 +110,9 @@ class AlienInvasion:
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
 
+        # 检查是否有外星人到达了屏幕底端
+        self._check_aliens_bottom()
+
     def _create_fleet(self):
         """创建外星人群"""
         # 创建一个外星人并计算一行可容纳多少个外星人
@@ -147,22 +153,33 @@ class AlienInvasion:
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
 
+    def _check_aliens_bottom(self):
+        """检查是否有外星人到达了屏幕底端"""
+        screen_rect = self.screen.get_rect()
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= screen_rect.bottom:
+                # 像飞船被撞到一样处理
+                self._ship_hit()
+                break
+
     def _ship_hit(self):
         """响应飞船被外星人撞到"""
+        if self.stats.ships_left > 0:
+            # 将ships_left减 1
+            self.stats.ships_left -= 1
 
-        # 将ships_left减 1
-        self.stats.ships_left -= 1
+            # 清空余下的外星人和子弹
+            self.aliens.empty()
+            self.bullets.empty()
 
-        # 清空余下的外星人和子弹
-        self.aliens.empty()
-        self.bullets.empty()
+            # 创建一群新的外星人，并将飞船放到屏幕底部的中央
+            self._create_fleet()
+            self.ship.center_ship()
 
-        # 创建一群新的外星人，并将飞船放到屏幕底部的中央
-        self._create_fleet()
-        self.ship.center_ship()
-
-        # 暂停
-        sleep(0.5)
+            # 暂停
+            sleep(0.5)
+        else:
+            self.stats.game_active = False
 
     def _update_screen(self):
         """更新屏幕上的图像，并切换到新屏幕"""
