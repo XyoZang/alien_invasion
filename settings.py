@@ -8,6 +8,16 @@ class Settings:
         self.screen_height = 600
         self.bg_color = (230, 230, 230)
 
+        # 音量设置
+        self.volume = 0.5  # 0~1
+
+        # 素材路径
+        self.alien_path = "images\\alien.bmp"
+        self.ship_path = "images\\ship.bmp"
+        self.bullet_path = "music\\bullet.wav"
+        self.boom_path = "music\\boom.wav"
+        self.bg_music_path = "music\\bg_music.mp3"
+
         # 飞船设置
         self.ship_limit = 3
 

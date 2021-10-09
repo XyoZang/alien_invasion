@@ -13,7 +13,7 @@ class Ship(Sprite):
         self.screen_rect = ai_game.screen.get_rect()
 
         # 加载飞船图像并获取其外接矩形。
-        self.image = pygame.image.load('images\\ship.bmp')
+        self.image = pygame.image.load(self.settings.ship_path)
         self.rect = self.image.get_rect()
 
         # 对于每艘新飞船，都会将其放在屏幕底部的中央。
@@ -52,3 +52,4 @@ class Ship(Sprite):
         """让飞船在屏幕底端居中"""
         self.rect.midbottom = self.screen_rect.midbottom
         self.x = float(self.rect.x)
+        self.y = float(self.rect.y)

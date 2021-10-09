@@ -97,6 +97,9 @@ class AlienInvasion:
             # 隐藏鼠标光标
             pygame.mouse.set_visible(False)
 
+            # 播放背景音乐
+            self._play_music()
+
     def _check_keydown_events(self, event):
         """响应按键"""
         if event.key == pygame.K_RIGHT:
@@ -128,6 +131,21 @@ class AlienInvasion:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
+            self.fire_music(self.settings.bullet_path, self.stats)
+
+    def fire_music(self, path, stats):
+        """子弹射击的音效"""
+        sound = pygame.mixer.Sound(path)
+        if(self.stats.level > 10):
+            sound.set_volume(1)
+        else:
+            sound.set_volume(0.1 * stats.level)
+        sound.play()
+
+    def boom_music(self, path):
+        """飞船爆炸的音效"""
+        sound = pygame.mixer.Sound(path)
+        sound.play()
 
     def _update_bullets(self):
         """更新子弹的位置并删除消失的子弹"""
@@ -172,6 +190,7 @@ class AlienInvasion:
 
         # 检测外星人和飞船之间的碰撞
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            self.boom_music(self.settings.boom_path)
             self._ship_hit()
 
         # 检查是否有外星人到达了屏幕底端
@@ -263,6 +282,12 @@ class AlienInvasion:
             self.play_button.draw_button()
 
         pygame.display.flip()
+
+    def _play_music(self):
+        """播放背景音乐"""
+        pygame.mixer.music.load(self.settings.bg_music_path)
+        pygame.mixer.music.set_volume(self.settings.volume)
+        pygame.mixer.music.play(-1)
 
 
 if __name__ == '__main__':

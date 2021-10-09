@@ -11,6 +11,7 @@ class Bullet(Sprite):
         self.screen = ai_game.screen
         self.settings = ai_game.settings
         self.color = self.settings.bullet_color
+        self.stats = ai_game.stats
 
         # 在(0,0)处创建一个表示子弹的矩形，再设置正确的位置
         self.rect = pygame.Rect(0, 0, self.settings.bullet_width,
