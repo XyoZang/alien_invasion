@@ -11,6 +11,13 @@ from ship import Ship
 from bullet import Bullet
 from alien import Alien
 
+# 加上下面代码
+import os
+
+os.chdir(sys.path[0])
+
+# 然后就可以愉快使用相对路径了
+
 
 class AlienInvasion:
     """管理游戏资源和行为的类"""
@@ -158,7 +165,8 @@ class AlienInvasion:
     def _update_aliens(self):
         """
         检查是否有外星人位于屏幕边缘，
-        并更新整群外星人的位置"""
+        并更新整群外星人的位置
+        """
         self._check_fleet_edges()
         self.aliens.update()
 
