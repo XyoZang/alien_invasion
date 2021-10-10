@@ -6,14 +6,14 @@ class Settings:
         # 屏幕设置
         self.screen_width = 1200
         self.screen_height = 600
-        self.bg_color = (230, 230, 230)
+        self.bg_color = (255, 255, 255)
 
         # 音量设置
         self.volume = 0.5  # 0~1
 
         # 素材路径
-        self.alien_path = "images\\alien.bmp"
-        self.ship_path = "images\\ship.bmp"
+        self.alien_path = "images\\plane_2.png"
+        self.ship_path = "images\\hero.png"
         self.bullet_path = "music\\bullet.wav"
         self.boom_path = "music\\boom.wav"
         self.bg_music_path = "music\\bg_music.mp3"
